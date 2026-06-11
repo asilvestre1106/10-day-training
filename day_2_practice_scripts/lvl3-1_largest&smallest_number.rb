@@ -11,11 +11,16 @@ end
 p numbers
 
 largest = numbers[0]
+smallest = numbers[0]
 
 for i in 0..4
   if numbers[i] >= largest
     largest = numbers[i]
   end
+  if numbers[i] <= smallest
+    smallest = numbers[i]
+  end
 end
 
 puts "Largest number: #{largest}"
+puts "Smallest number: #{smallest}"
