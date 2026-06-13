@@ -1,21 +1,15 @@
-students = [
-  {name: "Andre", grade: 95},
-  {name: "John", grade: 60},
-  {name: "Ced", grade: 88}
-]
+students = []
 
 passing_grade = 75
-
-puts "1. Add Student"
-puts "2. Show Student Names"
-puts "3. Show Passing students"
-puts "4. Show Failing Students"
-puts "5. Exit"
 
 is_on = true
 
 while is_on == true do
-
+  puts "1. Add Student"
+  puts "2. Show Student Names"
+  puts "3. Show Passing students"
+  puts "4. Show Failing Students"
+  puts "5. Exit"
   print "Please select and option: "
   choice = gets.chomp.to_i
 
@@ -31,8 +25,12 @@ while is_on == true do
     }
     students.push(new_student)
   when 2
-    names_only = students.map {|stu| stu[:name]}
-    puts "Students: #{names_only}"
+    if students.empty? == true
+      puts "The student list is empty"
+    else
+      names_only = students.map {|stu| stu[:name]}
+      puts "Students: #{names_only}"
+    end
   when 3
     result = students.select {|stu| stu[:grade]>=passing_grade}
     puts result
@@ -49,9 +47,9 @@ failing_grade = students.any? do |stu|
   stu[:grade] <= passing_grade
 end
 if failing_grade == true
-  puts "Yes"
-else
   puts "No"
+else
+  puts "Yes"
 end
 
 print "Did everyone pass?: "
