@@ -38,17 +38,84 @@ class Board
       mark_cell(row, col, mark)
     end
   end
+
+  def winning_lines
+  [
+    [@board[0][0], @board[0][1], @board[0][2]],
+    [@board[1][0], @board[1][1], @board[1][2]],
+    [@board[2][0], @board[2][1], @board[2][2]],
+
+    [@board[0][0], @board[1][0], @board[2][0]],
+    [@board[0][1], @board[1][1], @board[2][1]],
+    [@board[0][2], @board[1][2], @board[2][2]],
+
+    [@board[0][0], @board[1][1], @board[2][2]],
+    [@board[0][2], @board[1][1], @board[2][0]]
+  ]
+  end
+
+  def winner?(mark)
+  winning_lines.any? do |line|
+    line.all? { |cell| cell == mark }
+  end
+
+end
+  
 end
 
-#FOR TESTING
-board = Board.new
-board.display
+class Player
+  attr_accessor :name
+  attr_accessor :mark
 
-board.place_mark(1, "X")
-board.display
-board.place_mark(1, "O")
-board.display
-board.place_mark(3, "X")
-board.display
-board.place_mark(3, "O")
-board.display
+  def initialize(name, mark)
+    @name = name
+    @mark = mark
+  end
+
+end
+
+class Game
+  attr_accessor :board
+  attr_accessor :player1
+  attr_accessor :player2
+  attr_accessor :current_player
+
+  def initialize
+    @board = Board.new
+    @player1 = Player.new("Andre", "X")
+    @player2 = Player.new("Ced", "O")
+    @current_player = @player1
+  end
+
+  def switch_player
+    if @current_player == @player1
+      @current_player = @player2
+    else
+      @current_player = @player1
+    end
+  end
+
+  def start
+    while true
+      @board.display
+
+      puts "#{@current_player.name}'s Turn"
+      puts "Mark: #{@current_player.mark}"
+      
+      print "Choose position: "
+      position = gets.chomp.to_i
+      @board.place_mark(position, @current_player.mark)
+      
+      if @board.winner?(@current_player.mark)
+        @board.display
+        puts "#{@current_player.name} wins!"
+        break
+      end
+      switch_player
+    end
+  end
+
+end
+
+game = Game.new
+game.start
