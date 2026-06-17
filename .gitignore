@@ -1,2 +1,5 @@
 *.log
-.env
+.envday_6_rails/task_manager/vendor/bundle/
+day_6_rails/task_manager/.bundle/
+day_6_rails/task_manager/vendor/bundle/
+day_6_rails/task_manager/.bundle/
