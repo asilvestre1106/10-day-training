@@ -3,4 +3,11 @@
     .btn-primary{
         @apply inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 hover:shadow-md transition-all duration-200;
     }
+    .btn-logout{
+        @apply inline-block bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 hover:shadow-md transition-all duration-200;
+    }
+
+    .task-card{
+        @apply flex flex-col gap-3 border rounded p-4 mb-4 w-96 mx-auto transition-all duration-200 hover:shadow-lg hover:-translate-y-1 cursor-pointer;
+    }
 }

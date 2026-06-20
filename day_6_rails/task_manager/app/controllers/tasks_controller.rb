@@ -1,10 +1,14 @@
 class TasksController < ApplicationController
+  before_action :require_login
+
   before_action :set_task, only: %i[ show edit update destroy ]
 
   # GET /tasks or /tasks.json
   def index
     @tasks = Task.order(created_at: :asc)
     @total_tasks = @tasks.count
+    @completed_tasks = @tasks.where(completed: true).count
+    @pending_tasks = @tasks.where(completed: false).count
   end
 
   # GET /tasks/1 or /tasks/1.json

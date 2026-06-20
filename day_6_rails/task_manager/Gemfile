@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+#bcrypt
+gem "bcrypt", "~> 3.1.7"
 # Tailwind
 gem "tailwindcss-rails"
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
