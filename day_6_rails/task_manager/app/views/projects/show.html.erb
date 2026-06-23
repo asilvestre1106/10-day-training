@@ -1,34 +1,28 @@
 <% content_for :title, "Showing project" %>
 
-<div class="md:w-2/3 w-full">
-  <% if notice.present? %>
-    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-md inline-block" id="notice"><%= notice %></p>
-  <% end %>
+<div class="max-w-4xl mx-auto px-4 mt-10">
+  <h1 class="text-3xl font-bold mb-2">
+    <%= @project.name %>
+  </h1>
+  <h2 class="text-2xl font-bold mb-4">Tasks</h2>
 
-  <h1 class="font-bold text-4xl">Showing project</h1>
-
-  <%= render @project %>
-  <h2 class="text-2xl font-semibold mt-6 mb-3">Tasks</h2>
-
-  <% if @project.tasks.any? %>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
     <% @project.tasks.each do |task| %>
-      <div class="inline-block border rounded p-3 mb-2">
-        <strong><%= task.title %></strong>
+      <div class="border rounded-lg p-4 min-h-32 hover:shadow-lg hover:-translate-y-1 transition-all">
+        <h3 class="text-xl font-bold mb-2"><%= task.title %></h3>
+
         <% if task.completed %>
           <p class="text-green-600">Completed</p>
-          <%= link_to "Show this task", task, class: "btn-primary"%>
         <% else %>
-          <p class="text-yellow-600">Pending</p>
-          <%= link_to "Show this task", task, class: "btn-primary"%>
+          <p class="text-orange-700">Pending</p>
         <% end %>
       </div>
     <% end %>
-  <% else %>
-    <p>No tasks assigned to this project.</p>
-  <% end %>
-  <div>
-    <%= link_to "Edit this project", edit_project_path(@project), class: "w-full sm:w-auto text-center rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-    <%= link_to "Back to projects", projects_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-    <%= button_to "Destroy this project", @project, method: :delete, form_class: "sm:inline-block mt-2 sm:mt-0 sm:ml-2", class: "w-full rounded-md px-3.5 py-2.5 text-white bg-red-600 hover:bg-red-500 font-medium cursor-pointer", data: { turbo_confirm: "Are you sure?" } %>
+  </div>
+
+  <div class="flex items-center gap-2">
+    <%= link_to "Edit this project", edit_project_path(@project), class: "btn-secondary" %>
+    <%= link_to "Back to projects", projects_path, class: "btn-secondary" %>
+    <%= button_to "Destroy this project", @project, method: :delete, class: "btn-danger", data: { turbo_confirm: "Are you sure?" } %>
   </div>
 </div>

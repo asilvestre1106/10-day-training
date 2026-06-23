@@ -23,7 +23,33 @@
   </head>
 
   <body>
-    <main class="container mx-auto mt-10 px-5">
+    <nav class="bg-gray-800 text-white">
+      <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+
+        <div class="flex gap-4">
+          <%= link_to "Home", root_path, class: "hover:text-gray-300" %>
+
+          <% if current_user %>
+            <%= link_to "Tasks", tasks_path, class: "hover:text-gray-300" %>
+            <%= link_to "Projects", projects_path, class: "hover:text-gray-300" %>
+          <% end %>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <% if current_user %>
+            <span>Welcome, <%= current_user.name %></span>
+
+            <%= button_to "Logout",
+                logout_path,
+                method: :delete,
+                class: "bg-red-500 hover:bg-red-600 px-3 py-1 rounded" %>
+          <% else %>
+            <%= link_to "Login", login_path, class: "bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded" %>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    <main>
       <% if notice %>
         <p class="bg-green-100 text-green-700 p-3 rounded mb-4">
           <%= notice %>

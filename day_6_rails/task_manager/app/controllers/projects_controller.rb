@@ -5,6 +5,10 @@ class ProjectsController < ApplicationController
 
   # GET /projects or /projects.json
   def index
+    if turbo_frame_request? && request.headers["Turbo-Frame"] == "modal"
+      render html: ""
+      return
+    end
     @projects = Project.all
     @total_projects = @projects.count
   end
@@ -17,6 +21,7 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @project.tasks.build
   end
 
   # GET /projects/1/edit
@@ -69,6 +74,9 @@ class ProjectsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def project_params
-      params.expect(project: [ :name ])
+      params.require(:project).permit(
+        :name,
+        tasks_attributes: [ :title, :description, :completed ]
+      )
     end
 end

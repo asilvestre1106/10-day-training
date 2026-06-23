@@ -5,6 +5,11 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
+    if turbo_frame_request? && request.headers["Turbo-Frame"] == "modal"
+      render html: ""
+      return
+    end
+
     @tasks = Task.order(created_at: :asc)
     @total_tasks = @tasks.count
     @completed_tasks = @tasks.where(completed: true).count
@@ -28,27 +33,19 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
 
-    respond_to do |format|
-      if @task.save
-        format.html { redirect_to @task, notice: "Task was successfully created." }
-        format.json { render :show, status: :created, location: @task }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @task.errors, status: :unprocessable_content }
-      end
+    if @task.save
+      redirect_to tasks_path, notice: "Task was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /tasks/1 or /tasks/1.json
   def update
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to @task, notice: "Task was successfully updated.", status: :see_other }
-        format.json { render :show, status: :ok, location: @task }
-      else
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @task.errors, status: :unprocessable_content }
-      end
+    if @task.update(task_params)
+      redirect_to tasks_path, notice: "Task updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -70,7 +67,7 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-
+      params.require(:task).permit(:title, :description, :completed, :project_id)
       params.expect(task: [ :title, :description, :completed, :project_id ])
     end
 end

@@ -1,28 +1,36 @@
-<%= link_to task_path(task), class: "block w-full max-w-lg" do%>
-  <div id="<%= dom_id task %>" class="task-card">
-    <div>
+<div class="block w-full group relative">
+  <%= link_to edit_task_path(task),
+      data: { turbo_frame: "modal" },
+      class: "block" do %>
+
+    <div id="<%= dom_id task %>" class="task-card min-h-40">
       <p>
         Project:
         <%= task.project&.name || "No Project" %>
       </p>
-    </div>
-    
-    <div>
+
       <h2 class="text-xl font-bold">
         <%= task.title %>
       </h2>
-    </div>
 
-    <div>
-      <p><%= task.description %></p>
-    </div>
+      <p class="line-clamp-2 text-gray-700">
+        <%= task.description %>
+      </p>
 
-    <div>
-      <% if task.completed==false%>
-        <p class="text-orange-700">Pending</p>
-      <%else%>
+      <% if task.completed %>
         <p class="text-green-600">Completed</p>
-      <%end%>
+      <% else %>
+        <p class="text-orange-700">Pending</p>
+      <% end %>
     </div>
+  <% end %>
+
+  <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
+    <%= form_with model: task, method: :patch do |f| %>
+      <%= f.check_box :completed,
+          checked: task.completed,
+          onchange: "this.form.requestSubmit()",
+          class: "w-5 h-5 cursor-pointer" %>
+    <% end %>
   </div>
-<%end%>
+</div>

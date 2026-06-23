@@ -1,5 +1,5 @@
-<div class="max-w-4xl mx-auto px-4">
-  <div class="flex justify-between items-start">
+<div class="max-w-4xl mx-auto px-4 mt-10 mb-10">
+  <div class="flex justify-between items-center mb-6">
     <div>
       <h1 class="text-3xl font-bold mb-2">
         A Simple Task Manager
@@ -8,7 +8,8 @@
       <h3 class="text-gray-400">
         You have <%= @total_tasks %> tasks.
       </h3>
-      <div class="flex gap-4 mb-3">
+    </div>
+    <div class="flex gap-4 mb-3">
         <div class="flex flex-col items-center bg-green-100 p-4 rounded">
           <p class="font-bold"><%= @completed_tasks %></p>
           <p>Completed</p>
@@ -18,24 +19,20 @@
           <p class="font-bold"><%= @pending_tasks %></p>
           <p>Pending</p>
         </div>
-      </div>
-    </div>
-
-    <div class="flex flex-col items-end gap-2">
-      <p class="text-3xl font-bold mb-2">
-        Welcome, <%= current_user.name %>
-      </p class="flex gap-2 mb-6">
-      <%= button_to "Logout", logout_path, method: :delete, class: "btn-logout" %>
-    </div>
+     </div>
   </div>
 
-    <div class="flex gap-2">
-      <%= link_to "View Projects", projects_path, class: "btn-primary" %>
-      <%= link_to "New task", new_task_path, class: "btn-primary" %>
-    </div>
-  <div id="tasks" class="flex flex-col items-center gap-4">
+  <%= link_to "New task",
+    new_task_path,
+    data: { turbo_frame: "modal" },
+    class: "btn-primary mb-4" %>
+  
+  <div id="tasks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
     <% @tasks.each do |task| %>
       <%= render task %>
     <% end %>
   </div>
+
 </div>
+
+<%= turbo_frame_tag "modal" %>

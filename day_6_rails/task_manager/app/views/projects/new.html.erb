@@ -1,9 +1,19 @@
-<% content_for :title, "New project" %>
+<div class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+  <%= link_to "",
+      projects_path,
+      data: { turbo_frame: "modal" },
+      class: "absolute inset-0 cursor-default" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">New project</h1>
+  <div class="relative bg-white rounded-lg shadow-xl p-6 w-full max-w-lg z-10">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">New Project</h1>
 
-  <%= render "form", project: @project %>
+      <%= link_to "✕",
+          projects_path,
+          data: { turbo_frame: "modal" },
+          class: "text-xl" %>
+    </div>
 
-  <%= link_to "Back to projects", projects_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+    <%= render "form", project: @project %>
+  </div>
 </div>
